@@ -3,4 +3,4 @@ project(ex4)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(ex4 main.cpp)
+add_executable(ex4 main.cpp Server/Server.cpp Server/Server.h)
