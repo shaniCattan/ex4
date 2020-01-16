@@ -3,8 +3,11 @@
 //
 
 #include <utility>
+#include <system_error>
 
+#include <cerrno>
 #include <unistd.h>
+#include <sys/socket.h>
 
 #include "TcpSocket.h"
 
@@ -37,6 +40,24 @@ namespace utilities {
             }
             catch (...) {
 
+            }
+        }
+
+        std::string TcpSocket::readAtLeast(const std::size_t count) const {
+            auto buffer = std::string(count, '\0');
+
+            const auto bytesRead = read(m_socketFd, const_cast<char *>(buffer.data()), buffer.size());
+            if (bytesRead == -1) {
+                throw std::system_error{errno, std::system_category()};
+            }
+            buffer.resize(bytesRead);
+            return buffer;
+        }
+
+        void TcpSocket::send(const std::string &buffer) const {
+            const auto bytesWritten = write(m_socketFd, buffer.data(), buffer.size());
+            if (bytesWritten == -1 || bytesWritten < buffer.size()) {
+                throw std::system_error{errno, std::system_category()};
             }
         }
     }

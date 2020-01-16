@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace utilities {
     namespace sockets {
         class TcpSocket {
@@ -20,6 +22,10 @@ namespace utilities {
             TcpSocket &operator=(TcpSocket &&rhs) noexcept;
 
             ~TcpSocket();
+
+            std::string readAtLeast(std::size_t count) const;
+
+            void send(const std::string &buffer) const;
 
         private:
             int m_socketFd = -1;
