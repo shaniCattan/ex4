@@ -12,6 +12,7 @@ namespace utilities {
 
         public:
             explicit TcpSocket(int socketFd) noexcept;
+            TcpSocket(const std::string& ip, std::uint16_t port);
 
             TcpSocket(const TcpSocket &) = delete;
 
@@ -23,7 +24,13 @@ namespace utilities {
 
             ~TcpSocket();
 
-            std::string readAtLeast(std::size_t count) const;
+            std::string readAtMost(std::size_t count) const;
+
+            /**
+             * This function can be improved to be more efficient
+             *  using fixed size buffers
+             */
+            std::string readExactly(std::size_t count) const;
 
             void send(const std::string &buffer) const;
 

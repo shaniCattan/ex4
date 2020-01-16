@@ -8,6 +8,8 @@
 #include <cerrno>
 #include <unistd.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #include "TcpSocket.h"
 
@@ -43,7 +45,7 @@ namespace utilities {
             }
         }
 
-        std::string TcpSocket::readAtLeast(const std::size_t count) const {
+        std::string TcpSocket::readAtMost(size_t count) const {
             auto buffer = std::string(count, '\0');
 
             const auto bytesRead = read(m_socketFd, const_cast<char *>(buffer.data()), buffer.size());
@@ -59,6 +61,35 @@ namespace utilities {
             if (bytesWritten == -1 || bytesWritten < buffer.size()) {
                 throw std::system_error{errno, std::system_category()};
             }
+        }
+
+        TcpSocket::TcpSocket(const std::string &ip, const std::uint16_t port) {
+            m_socketFd = socket(AF_INET, SOCK_STREAM, 0);
+            if (-1 == m_socketFd) {
+                throw std::system_error{errno, std::system_category()};
+            }
+
+            auto serverAddress = sockaddr_in{};
+            serverAddress.sin_family = AF_INET;
+            serverAddress.sin_port = htons(port);
+            if (0 == inet_pton(AF_INET, ip.c_str(), &(serverAddress.sin_addr))) {
+                throw std::system_error{errno, std::system_category()};
+            }
+
+            if (-1 == connect(m_socketFd, reinterpret_cast<sockaddr*>(&serverAddress), sizeof(serverAddress))) {
+                throw std::system_error{errno, std::system_category()};
+            }
+        }
+
+        std::string TcpSocket::readExactly(const std::size_t count) const {
+            auto buffer = std::string{};
+            buffer.reserve(count);
+
+            while (buffer.size() < count) {
+                buffer += readAtMost(count - buffer.size());
+            }
+
+            return buffer;
         }
     }
 }
