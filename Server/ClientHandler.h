@@ -9,6 +9,6 @@
 namespace server_side {
     class ClientHandler {
     public:
-        virtual void handleClient(utilities::sockets::TcpSocket sock) = 0;
+        virtual void handleClient(utilities::sockets::TcpSocket sock) const = 0;
     };
 }

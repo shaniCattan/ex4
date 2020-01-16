@@ -13,7 +13,7 @@ namespace server_side {
     class Server {
     public:
         virtual void open(std::uint16_t port) = 0;
-        virtual void accept(const ClientHandler& handler) = 0;
+        virtual void accept(const ClientHandler& handler) const = 0;
         virtual void stop() = 0;
     };
 
