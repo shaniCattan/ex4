@@ -10,5 +10,20 @@ namespace graph {
 
             return rowIndex * width + columnIndex;
         }
+
+        std::string toString(Directions direction) {
+            switch (direction) {
+                case graph::algorithms::Directions::UP:
+                    return "Up";
+                case graph::algorithms::Directions::DOWN:
+                    return "Down";
+                case graph::algorithms::Directions::RIGHT:
+                    return "Right";
+                case graph::algorithms::Directions::LEFT:
+                    return "Left";
+                default:
+                    return "";
+            }
+        }
     }
 }
