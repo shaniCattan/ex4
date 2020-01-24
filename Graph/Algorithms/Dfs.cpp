@@ -4,19 +4,22 @@
 
 #include "Dfs.h"
 
-// C++ program to print DFS traversal from
-// a given vertex in a  given graph
-#include<iostream>
-#include<list>
-
-
 namespace graph {
     namespace algorithms {
         std::stack<Directions> Dfs::DfsSolver::DFSUtil(MatrixGraph::Vertex vertex) {
+            if (!m_matrix.isVertexValid(vertex)) {
+                return {};
+            }
 
             const auto vertexIndex = toArrayIndex(vertex);
             if (m_visited[vertexIndex]) {
                 return {};
+            }
+
+            if (m_end == vertex) {
+                auto stack = std::stack<Directions>{};
+                stack.push(Directions::NULL_MOVE);
+                return stack;
             }
 
             auto resultPath = std::stack<Directions>{};
@@ -29,6 +32,7 @@ namespace graph {
             resultPath = DFSUtil(vertex);
             if (!resultPath.empty()) {
                 resultPath.push(Directions::DOWN);
+                return resultPath;
             }
 
             // GO RIGHT
@@ -37,6 +41,7 @@ namespace graph {
             resultPath = DFSUtil(vertex);
             if (!resultPath.empty()) {
                 resultPath.push(Directions::RIGHT);
+                return resultPath;
             }
 
             // GO UP
@@ -45,6 +50,7 @@ namespace graph {
             resultPath = DFSUtil(vertex);
             if (!resultPath.empty()) {
                 resultPath.push(Directions::UP);
+                return resultPath;
             }
 
             // GO LEFT
@@ -53,6 +59,7 @@ namespace graph {
             DFSUtil(vertex);
             if (!resultPath.empty()) {
                 resultPath.push(Directions::LEFT);
+                return resultPath;
             }
 
             return {};
