@@ -56,7 +56,7 @@ namespace graph {
             // GO LEFT
             ++vertex.rowIndex;
             --vertex.columnIndex;
-            DFSUtil(vertex);
+            resultPath = DFSUtil(vertex);
             if (!resultPath.empty()) {
                 resultPath.push(Directions::LEFT);
                 return resultPath;
