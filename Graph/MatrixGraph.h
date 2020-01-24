@@ -22,6 +22,9 @@ namespace graph {
         MatrixGraph(std::vector<WeightT> weights, std::size_t height, std::size_t width);
 
         WeightT getWeight(const Vertex& vertex) const;
+
+        std::size_t height() const;
+        std::size_t width() const;
     private:
         bool isVertexValid(const Vertex& vertex) const;
 

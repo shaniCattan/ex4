@@ -31,4 +31,12 @@ namespace graph {
         return vertex.rowIndex * m_width + vertex.columnIndex;
     }
 
+    std::size_t MatrixGraph::height() const {
+        return m_height;
+    }
+
+    std::size_t  MatrixGraph::width() const {
+        return m_width;
+    }
+
 }
