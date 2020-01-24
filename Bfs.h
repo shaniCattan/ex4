@@ -2,15 +2,21 @@
 // Created by shani on 1/24/20.
 //
 
-#ifndef EX4_BFS_H
-#define EX4_BFS_H
+#pragma once
 
+#include <vector>
 
+// This class represents a directed graph using
+// adjacency list representation
+class Graph
+{
+public:
 
-class Bfs {
+    virtual void addEdge(int v, int w) = 0;
 
+    virtual bool areConnected(int v1, int v2) = 0;
+
+    virtual ~Graph() = default;
 };
 
 
-
-#endif //EX4_BFS_H
