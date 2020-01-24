@@ -13,7 +13,7 @@ namespace graph {
     namespace algorithms{
         class Solver {
         public:
-            virtual std::stack<Directions> solve(const MatrixGraph& graph) const = 0;
+            virtual std::stack<Directions> solve(const MatrixGraph& graph, MatrixGraph::Vertex begin, MatrixGraph::Vertex end) const = 0;
         };
 
     }

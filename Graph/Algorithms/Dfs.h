@@ -28,7 +28,7 @@ namespace graph {
             };
 
         public:
-            std::stack<Directions> solve(const MatrixGraph &matrix) const override;
+            std::stack<Directions> solve(const MatrixGraph& graph, MatrixGraph::Vertex begin, MatrixGraph::Vertex end) const override;
         };
     }
 }

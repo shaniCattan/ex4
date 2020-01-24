@@ -73,8 +73,8 @@ namespace graph {
             return matrixIndexToArrayIndex(vertex.rowIndex, vertex.columnIndex, m_matrix.height(), m_matrix.width());
         }
 
-        std::stack<Directions> graph::algorithms::Dfs::solve(const graph::MatrixGraph &matrix) const {
-            return DfsSolver(matrix, {0, 0}, {matrix.height() - 1, matrix.width() - 1}).solve();
+        std::stack<Directions> graph::algorithms::Dfs::solve(const MatrixGraph& graph, MatrixGraph::Vertex begin, MatrixGraph::Vertex end) const {
+            return DfsSolver(graph, begin, end).solve();
         }
 
         Dfs::DfsSolver::DfsSolver(const MatrixGraph &matrix, MatrixGraph::Vertex begin, MatrixGraph::Vertex end)
