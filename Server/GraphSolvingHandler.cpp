@@ -58,12 +58,12 @@ namespace server_side {
         // Remove the end and end of line
         data.resize(data.size() - 4);
 
-        const auto firstEndline = data.rfind(ENDLINE_TOKEN);
-        const auto secondEndline = data.rfind(ENDLINE_TOKEN, firstEndline - 1);
+        const auto secondEndline = data.rfind(ENDLINE_TOKEN);
+        const auto firstEndline = data.rfind(ENDLINE_TOKEN, secondEndline - 1);
 
         return {
-                parseMatrix(data.substr(0, secondEndline)),
-                parseVertex(data.substr(secondEndline + 1, firstEndline - secondEndline + 1)),
+                parseMatrix(data.substr(0, firstEndline)),
+                parseVertex(data.substr(firstEndline + 1, secondEndline - firstEndline + 1)),
                 parseVertex(data.substr(secondEndline + 1))
         };
     }
@@ -72,5 +72,31 @@ namespace server_side {
         const auto splitPosition = line.find(SPLIT_TOKEN);
         return graph::MatrixGraph::Vertex{std::stoull(line.substr(0, splitPosition)),
                                           std::stoull(line.substr(splitPosition + 1))};
+    }
+
+    void GraphSolvingHandler::handleClient(utilities::sockets::TcpSocket sock) const {
+        auto result = parseClientData(readClientData(sock));
+        auto solution = m_solver->solve(std::get<0>(result), std::get<1>(result), std::get<2>(result));
+        sock.send(solutionToString(std::move(solution)));
+        sock.send("\n");
+    }
+
+    GraphSolvingHandler::GraphSolvingHandler(std::unique_ptr<graph::algorithms::Solver> solver) noexcept :
+            m_solver(std::move(solver)) {
+    }
+
+    std::string GraphSolvingHandler::solutionToString(std::stack<graph::algorithms::Directions> solution) {
+        if (solution.size() <= 1) {
+            return std::string{};
+        }
+
+        std::string result{};
+        while (solution.size() > 1) {
+            result += graph::algorithms::toString(solution.top()) + ",";
+            solution.pop();
+        }
+        result += graph::algorithms::toString(solution.top());
+
+        return result;
     }
 }
