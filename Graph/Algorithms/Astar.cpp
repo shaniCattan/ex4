@@ -50,7 +50,7 @@ namespace graph {
 
                 const auto successorRealCost = getRealCost(currentNode);
 
-                for (auto neighbor: getAllNeighbors(currentNode)) {
+                for (auto neighbor: m_matrix.getAllNeighbors(currentNode)) {
                     const auto tentativeRealCost = successorRealCost + m_matrix.getWeight(neighbor);
                     if (tentativeRealCost < getRealCost(neighbor)) {
                         m_successors[neighbor] = currentNode;
@@ -80,48 +80,17 @@ namespace graph {
                    std::llabs(static_cast<std::int64_t>(vertex.rowIndex) - static_cast<std::int64_t>(m_end.rowIndex));
         }
 
-        std::vector<MatrixGraph::Vertex> AStar::AStarSolver::getAllNeighbors(MatrixGraph::Vertex vertex) const {
-            auto vector = std::vector<MatrixGraph::Vertex>(4, vertex);
-            --vector[0].rowIndex;
-            ++vector[1].rowIndex;
-            --vector[2].columnIndex;
-            ++vector[3].columnIndex;
-
-            vector.erase(std::remove_if(vector.begin(), vector.end(), [this](const MatrixGraph::Vertex vertex) {
-                return !m_matrix.isVertexValid(vertex);
-            }), vector.end());
-
-            return vector;
-        }
-
         std::stack<Directions> AStar::AStarSolver::reconstructPath() const {
             auto result = std::stack<Directions>{};
             result.push(Directions::NULL_MOVE);
 
             auto currentNode = m_end;
             while (!(currentNode == m_begin)) {
-                result.push(getDirection(m_successors.at(currentNode), currentNode));
+                result.push(getDirectionUnsafe(m_successors.at(currentNode), currentNode));
                 currentNode = m_successors.at(currentNode);
             }
 
             return result;
-        }
-
-        Directions
-        AStar::AStarSolver::getDirection(AStar::AStarSolver::Vertex from, AStar::AStarSolver::Vertex to) {
-            if (from.columnIndex < to.columnIndex) {
-                return Directions::RIGHT;
-            }
-
-            if (from.columnIndex > to.columnIndex) {
-                return Directions::LEFT;
-            }
-
-            if (from.rowIndex < to.rowIndex) {
-                return Directions::DOWN;
-            }
-
-            return Directions::UP;
         }
 
     }

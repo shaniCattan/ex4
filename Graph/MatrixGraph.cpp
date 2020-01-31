@@ -2,7 +2,9 @@
 // Created by shani on 1/24/20.
 //
 
+#include <algorithm>
 #include <stdexcept>
+
 #include "MatrixGraph.h"
 
 namespace graph {
@@ -22,6 +24,21 @@ namespace graph {
 
         return m_weights[indexOf(vertex)];
     }
+
+    std::vector<MatrixGraph::Vertex> MatrixGraph::getAllNeighbors(MatrixGraph::Vertex vertex) const {
+        auto vector = std::vector<MatrixGraph::Vertex>(4, vertex);
+        --vector[0].rowIndex;
+        ++vector[1].rowIndex;
+        --vector[2].columnIndex;
+        ++vector[3].columnIndex;
+
+        vector.erase(std::remove_if(vector.begin(), vector.end(), [this](const MatrixGraph::Vertex vertex) {
+            return !isVertexValid(vertex);
+        }), vector.end());
+
+        return vector;
+    }
+
 
     bool MatrixGraph::isVertexValid(const MatrixGraph::Vertex &vertex) const {
         return m_height > vertex.rowIndex && m_width > vertex.columnIndex;

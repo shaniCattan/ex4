@@ -17,6 +17,11 @@ namespace graph {
             bool operator==(const Vertex &vertex) const {
                 return rowIndex == vertex.rowIndex && columnIndex == vertex.columnIndex;
             }
+
+            bool operator<(const Vertex vertex) const {
+                return rowIndex < vertex.rowIndex ||
+                        (rowIndex == vertex.rowIndex && columnIndex < vertex.columnIndex);
+            }
         };
 
         using WeightT = std::size_t;
@@ -31,6 +36,8 @@ namespace graph {
         std::size_t height() const;
 
         std::size_t width() const;
+
+        std::vector<MatrixGraph::Vertex> getAllNeighbors(MatrixGraph::Vertex vertex) const;
 
     private:
         std::size_t indexOf(const Vertex &vertex) const;

@@ -91,7 +91,7 @@ namespace server_side {
         }
 
         std::string result{};
-        while (solution.size() > 1) {
+        while (solution.size() > 2) {
             result += graph::algorithms::toString(solution.top()) + ",";
             solution.pop();
         }

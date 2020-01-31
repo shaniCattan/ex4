@@ -25,5 +25,21 @@ namespace graph {
                     return "";
             }
         }
+
+        Directions getDirectionUnsafe(MatrixGraph::Vertex from, MatrixGraph::Vertex to) noexcept {
+            if (from.columnIndex < to.columnIndex) {
+                return Directions::RIGHT;
+            }
+
+            if (from.columnIndex > to.columnIndex) {
+                return Directions::LEFT;
+            }
+
+            if (from.rowIndex < to.rowIndex) {
+                return Directions::DOWN;
+            }
+
+            return Directions::UP;
+        }
     }
 }

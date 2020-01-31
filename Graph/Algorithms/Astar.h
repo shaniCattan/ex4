@@ -34,10 +34,6 @@ namespace graph {
             private:
                 std::stack<Directions> reconstructPath() const;
 
-                static Directions getDirection(Vertex from, Vertex to);
-
-                std::vector<MatrixGraph::Vertex> getAllNeighbors(MatrixGraph::Vertex vertex) const;
-
                 const MatrixGraph::Vertex m_begin;
                 const MatrixGraph::Vertex m_end;
                 const MatrixGraph &m_matrix;
