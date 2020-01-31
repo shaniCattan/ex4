@@ -10,15 +10,16 @@
 #include "Graph/Algorithms/Bfs.h"
 #include "Graph/Algorithms/BestFS.h"
 
+#include "Server/ParallelDispatcher.h"
+
 int main() {
     try {
         auto tcpServer = server_side::sockets::TcpServer();
         tcpServer.open(8080);
-        auto client = tcpServer.accept();
-        auto clientHandle = server_side::GraphSolvingHandler(
-                std::unique_ptr<graph::algorithms::Solver>(new graph::algorithms::AStar{})
-                );
-        clientHandle.handleClient(std::move(client));
+        auto dispatcher = std::unique_ptr<server_side::Dispatcher>(new server_side::ParallelDispatcher{});
+        dispatcher->dispatch(std::move(tcpServer),
+                             std::unique_ptr<server_side::ClientHandler>(new server_side::GraphSolvingHandler{
+                                     std::unique_ptr<graph::algorithms::Solver>(new graph::algorithms::AStar{})}));
     }
     catch (std::exception &e) {
         std::cout << "Program terminated with an exception: " << e.what() << std::endl;
