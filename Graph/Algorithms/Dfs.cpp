@@ -7,7 +7,7 @@
 namespace graph {
     namespace algorithms {
         std::stack<Directions> Dfs::DfsSolver::DFSUtil(MatrixGraph::Vertex vertex) {
-            if (!m_matrix.isVertexValid(vertex)) {
+            if (!m_matrix.isVertexValid(vertex) || m_matrix.getWeight(vertex) == MatrixGraph::INFINITE_WEIGHT) {
                 return {};
             }
 

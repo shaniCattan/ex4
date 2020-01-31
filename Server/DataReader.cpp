@@ -10,7 +10,7 @@ namespace server_side {
         while (true) {
             auto newBuffer = socket.readAtMost(1024);
             buffer += newBuffer;
-            if (newBuffer.find(END_TOKEN)) {
+            if (newBuffer.find(END_TOKEN) != std::string::npos) {
                 break;
             }
         }

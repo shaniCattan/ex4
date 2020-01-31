@@ -33,7 +33,7 @@ namespace graph {
         ++vector[3].columnIndex;
 
         vector.erase(std::remove_if(vector.begin(), vector.end(), [this](const MatrixGraph::Vertex vertex) {
-            return !isVertexValid(vertex);
+            return !isVertexValid(vertex) || getWeight(vertex) == INFINITE_WEIGHT;
         }), vector.end());
 
         return vector;
