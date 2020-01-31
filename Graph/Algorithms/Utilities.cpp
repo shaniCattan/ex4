@@ -1,5 +1,14 @@
 #include "Utilities.h"
 
+
+namespace std {
+
+    bool
+    less<graph::MatrixGraph::Vertex>::operator()(graph::MatrixGraph::Vertex lhs, graph::MatrixGraph::Vertex rhs) const {
+        return lhs < rhs;
+    }
+}
+
 namespace graph {
     namespace algorithms {
         std::size_t matrixIndexToArrayIndex(const std::size_t rowIndex, const std::size_t columnIndex,

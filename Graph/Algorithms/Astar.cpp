@@ -7,13 +7,6 @@
 #include <algorithm>
 #include <set>
 
-namespace std {
-
-    bool
-    less<graph::MatrixGraph::Vertex>::operator()(graph::MatrixGraph::Vertex lhs, graph::MatrixGraph::Vertex rhs) const {
-        return lhs.rowIndex < rhs.rowIndex || (lhs.rowIndex == rhs.rowIndex && lhs.columnIndex < rhs.columnIndex);
-    }
-}
 
 namespace graph {
     namespace algorithms {

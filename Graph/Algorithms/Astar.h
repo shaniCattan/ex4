@@ -8,15 +8,6 @@
 
 #include "Solver.h"
 
-namespace std
-{
-    template<>
-    struct less<graph::MatrixGraph::Vertex>
-    {
-        bool operator()(graph::MatrixGraph::Vertex lhs, graph::MatrixGraph::Vertex rhs) const;
-    };
-
-}
 
 namespace graph {
     namespace algorithms {
