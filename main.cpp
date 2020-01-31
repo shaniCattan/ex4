@@ -11,6 +11,7 @@
 #include "Graph/Algorithms/BestFS.h"
 
 #include "Server/ParallelDispatcher.h"
+#include "Server/SerialDispatcher.h"
 
 int main() {
     try {

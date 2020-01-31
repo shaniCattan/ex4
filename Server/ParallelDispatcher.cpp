@@ -8,12 +8,11 @@
 #include <thread>
 
 namespace server_side {
-
     void ParallelDispatcher::dispatch(sockets::TcpServer server, std::unique_ptr<ClientHandler> handler) {
         while (true) {
             try {
                 auto client = server.accept();
-                m_threads.emplace([&](){handler->handleClient(std::move(client));});
+                m_threads.emplace([&handler](utilities::sockets::TcpSocket client){handler->handleClient(std::move(client));}, std::move(client));
             } catch (std::exception& e) {
                 std::cerr << e.what() << std::endl;
                 break;

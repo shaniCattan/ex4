@@ -4,6 +4,7 @@
 
 #include "Astar.h"
 
+#include <iostream>
 #include <algorithm>
 #include <set>
 
@@ -38,6 +39,7 @@ namespace graph {
                                           });
                 openList.erase(currentNode);
                 if (currentNode == m_end) {
+                    m_solved = true;
                     break;
                 }
 
@@ -76,6 +78,10 @@ namespace graph {
         std::stack<Directions> AStar::AStarSolver::reconstructPath() const {
             auto result = std::stack<Directions>{};
             result.push(Directions::NULL_MOVE);
+
+            if (!m_solved) {
+                return result;
+            }
 
             auto currentNode = m_end;
             while (!(currentNode == m_begin)) {

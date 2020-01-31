@@ -29,6 +29,7 @@ namespace graph {
                 const MatrixGraph::Vertex m_end;
                 const MatrixGraph &m_matrix;
 
+                bool m_solved = false;
                 std::map<graph::MatrixGraph::Vertex, graph::MatrixGraph::Vertex> m_successors;
             };
 
